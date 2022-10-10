@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+#đây là interface của 1 tree root được mô phỏng và sử dụng composite pattern
 class CItem(ABC):
     @property
     def name(self):
@@ -46,7 +47,8 @@ class CItem(ABC):
         '''
             print current item
         '''
-        
+
+#đây là class lưu trữ con là dạng file
 class CFile(CItem):
     #override name property
     name = None
@@ -86,6 +88,7 @@ class CFile(CItem):
     def printCurrentItem(self):
         print(self.name)
 
+#đây là class được lưu trữ dưới dạng folder
 class CFolder(CItem):
     name = None
     path = None
@@ -101,6 +104,7 @@ class CFolder(CItem):
     def add(self, item:CItem) -> None:
         self.subItem.append(item)
 
+    #tìm các Node con bằng path
     def findByPath(self, path) -> None:
         result = None
         if self.path == path:
@@ -115,16 +119,19 @@ class CFolder(CItem):
                 return result
         return None
 
+    #lấy size = totalSize(child) (như 1 lời thực hiện duyệt cây)
     def getSize(self) -> int:
         size = 0
         for item in self.subItem:
             size = size + item.getSize()
         return size
 
+    #chỉ print các phần tử trong 1 cấp thư mục
     def printCurrentItem(self):
         for item in self.subItem:
             print(item.name)
 
+    #size thực của 1 folder là kích thước tổng tập tin con nó đang lưu trữ
     def print(self, space='----') -> None:
         
         print(f'{space}Folder: {self.name}, size: {self.getSize()}')
