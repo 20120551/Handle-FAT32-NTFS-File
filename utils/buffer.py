@@ -25,13 +25,13 @@ def getValueOfBufferByOffset(buffer, begin, offset, bts=512):
     return result
 
 #hàm này được dùng cho việc đọc content ở dạng non-resident
-def getContentByCluster(file, begin, clusters, sc, bts=512):
+def getContentByCluster(file, begin, clusters, sc, beginContent=0, bts=512):
     listOfSector = []
     #lấy tất cả sector từ cluster bắt đầu tới kết thúc,
     #sc: số sector/cluster
     for cluster in range(begin, begin+clusters):
         for i in range(sc):
-            sector = cluster*sc + i
+            sector = beginContent + cluster*sc + i
             listOfSector.append(sector)
     
     #đọc tất cả sector và lấy ra content nó đang chứa

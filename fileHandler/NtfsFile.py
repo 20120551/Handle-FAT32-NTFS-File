@@ -1,9 +1,8 @@
-from datetime import datetime, timedelta
 from utils.buffer import *
 from utils.directory import Directory
 from utils.factory import *
 from constant.attribute import *
-from constant.offset import *
+from constant.NTFSoffset import *
 from constant.document import *
 from pattern.composite import *
 from build.console import *
@@ -187,7 +186,6 @@ class NtfsFile:
                 index = index + attributeSize
             #khi đọc hết 1 MFT, ta kiểm tra name có phải $MFT, $LOGFILE, nếu không ta lưu chúng vào cây thư mục
             if not name.startswith('$'):
-
                 #tạo đường dẫn đến cây thư mục cha
                 if isFolder:
                     path = self.directory.add(parentIndex, sector / 2, name)

@@ -1,4 +1,5 @@
 import os
+from fileHandler.Fat32File import Fat32File
 from utils.directory import Directory
 from fileHandler.NtfsFile import NtfsFile
 from pattern.composite import *
@@ -28,6 +29,7 @@ class Disk:
     def generateDiskFile(self):
         diskFile = os.open(self.diskPath, os.O_BINARY)
         diskObjectFile = os.fdopen(diskFile, 'rb')
+
         return diskObjectFile
 
     #tạo 1 NTFS file container để xử lý file vừa đọc
@@ -40,5 +42,9 @@ class Disk:
     def generateDirectory(self):
         directory = Directory(f'{self.diskPath[-2]}:')
         return directory
+    def generateFat32File(self, file, directory): 
+        root = CFolder(self.diskPath[-2], f'{self.diskPath[-2]}:')
+        fat32File = Fat32File(file, root, directory)
+        return fat32File
 
 
