@@ -1,4 +1,3 @@
-from msilib.schema import Directory
 from utils.disk import Disk
 
 def main():
@@ -13,30 +12,36 @@ def main():
         #generate directory
         directory = disk.generateDirectory()
         #create new tnfs file system
-        # ntfsFile = disk.generateNTFSFile(file, directory)
 
-        # #demo handle PARTITION BOOT SECTOR
-        # print('\n\n--------------PARTITION BOOT SECTOR--------------')
-        # ntfsFile.readPartitionRootSector()
+        volumeType = input('1:       NTFS\nOther:   FAT32\nchoose your volume type: ')
 
-        # print('\n\nPress enter to switch to READ MASTER FILE TABLE function demo')
-        # input()
+        if volumeType == '1':
+            ######=========================DEMO NTFS========================###
+            ntfsFile = disk.generateNTFSFile(file, directory)
 
-        # #demo handle READ MASTER FILE TABLE
-        # #build DIRECTORY TREE by console
-        # ntfsFile.build()
+            #demo handle PARTITION BOOT SECTOR
+            print('\n\n--------------PARTITION BOOT SECTOR--------------')
+            ntfsFile.readPartitionRootSector()
 
+            print('\n\nPress enter to switch to READ MASTER FILE TABLE function demo')
+            input()
 
-        #create fat32 file system
-        fat32File = disk.generateFat32File(file, directory)
-        fat32File.readBootSector()
+            #demo handle READ MASTER FILE TABLE
+            #build DIRECTORY TREE by console
+            ntfsFile.build()
+            
+        else:
+            ######=========================DEMO FAT32========================###
+            #create fat32 file system
+            fat32File = disk.generateFat32File(file, directory)
+            fat32File.readBootSector()
 
-        print('\n\nPress enter to switch to READ MASTER FILE TABLE function demo')
-        input()
+            print('\n\nPress enter to switch to RDET function demo')
+            input()
 
-        #demo handle READ MASTER FILE TABLE
-        #build DIRECTORY TREE by console
-        fat32File.build()
+            #demo handle RDET
+            #build DIRECTORY TREE by console
+            fat32File.build()
     except:
         pass
 if __name__ == '__main__':
