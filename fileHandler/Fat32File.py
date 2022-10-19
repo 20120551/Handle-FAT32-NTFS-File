@@ -35,14 +35,16 @@ class Fat32File:
         self.startedDataPosition = self.sb + self.sf * self.totalFat
 
         #in thông tin
-        print(f'Sector size: {self.sectorSize}(bytes)')
-        print(f'Sector/cluster: {self.sc}(s)')
-        print(f'Sector/boot sector: {self.sb}(s)')
-        print(f'A number of Fats: {self.totalFat}(s)')
-        print(f'Sector / fat: {self.sf}(s)')
-        print(f'Total sector: {self.totalSector}(s)')
-        print(f'Started RDET cluster: {self.startedRDEFCluster}(c)')
-        print(f'Started data position: {self.startedDataPosition}(s)')
+        print( '_________________________________________________________________')
+        print(f'     Sector size: {self.sectorSize}(bytes)                       ')
+        print(f'     Sector/cluster: {self.sc}(s)                                     ')
+        print(f'     Sector/boot sector: {self.sb}(s)                                 ')
+        print(f'     A number of Fats: {self.totalFat}(s)                             ')
+        print(f'     Sector / fat: {self.sf}(s)                                       ')
+        print(f'     Total sector: {self.totalSector}(s)                              ')
+        print(f'     Started RDET cluster: {self.startedRDEFCluster}(c)               ')
+        print(f'     Started data position: {self.startedDataPosition}(s)             ')
+        print( '_________________________________________________________________')
 
     def getFatTable(self):
         fatTable = getBufferDataBySector(self.file, self.sb, self.sf, self.sectorSize)
@@ -136,8 +138,8 @@ class Fat32File:
             size = getValueOfBufferByOffset(entryBuffer, ME_CONTENT_SIZE['hex'], ME_CONTENT_SIZE['byte'])
             lowWord = getValueOfBufferByOffset(entryBuffer, ME_LOW_WORD['hex'], ME_LOW_WORD['byte'])
             highWord = getValueOfBufferByOffset(entryBuffer, ME_HIGH_WORD['hex'], ME_HIGH_WORD['byte'])
-            mainName = getBufferDataByOffset(entryBuffer, ME_MAIN_NAME['hex'], ME_MAIN_NAME['byte']).decode('utf-8', errors='ignore').strip()
-            expandName = getBufferDataByOffset(entryBuffer, ME_EXPAND_NAME['hex'], ME_EXPAND_NAME['byte']).decode('utf-8', errors='ignore').strip()
+            mainName = getBufferDataByOffset(entryBuffer, ME_MAIN_NAME['hex'], ME_MAIN_NAME['byte']).decode('utf-8', errors='ignore').strip().lower()
+            expandName = getBufferDataByOffset(entryBuffer, ME_EXPAND_NAME['hex'], ME_EXPAND_NAME['byte']).decode('utf-8', errors='ignore').strip().lower()
 
             
             if mainName.startswith('.') or mainName.startswith('..'):
@@ -166,9 +168,11 @@ class Fat32File:
                 # lấy bảng SDET
                 fileSDETCluster = self.getRDETTable(currentStartedCluster)
                 # lấy bảng sdet dạng sector để duyệt
-                fileSDETBuffer = getContentByCluster(self.file, currentStartedCluster - 2, len(fileSDETCluster), self.sc, self.startedDataPosition)
+                fileSDETBuffer = getContentByCluster(self.file, currentStartedCluster - 2, len(fileSDETCluster), self.sc, self.startedDataPosition).decode('utf-8', errors='ignore')
                 # đọc thông tin content
-                content = fileSDETBuffer.decode('utf-8', errors='ignore')
+                if fileSDETBuffer.find('\x00') > 0:
+                    fileSDETBuffer = fileSDETBuffer[:fileSDETBuffer.find('\x00')]
+                content = fileSDETBuffer
             else:
                 #trường hợp các .file không được hỗ trợ đọc
                 try:
@@ -189,20 +193,19 @@ class Fat32File:
             
             #gọi đệ qui khi là folder
             if isFolder:
-                # rán tạm 
+                # gán tạm 
                 temp = self.startedRDEFCluster
                 # hoán đổi current start RDEF
                 self.startedRDEFCluster = currentStartedCluster
                 self.readDirectoryEntryTable()
-                # rán lại biến ban đầu
+                # gán lại biến ban đầu
                 self.startedRDEFCluster = temp
             index = index + 32
 
     def generateTree(self):
-        self.readBootSector()
+        #self.readBootSector()
         self.readDirectoryEntryTable()
     def build(self):
         self.generateTree()
-        # self.root.print()
         console = Console(self.root)
         console.windowShell()

@@ -10,15 +10,15 @@ class Disk:
         #các platform cho phép handle
         self.platformName = os.name
         if self.platformName == 'nt':
-            print('===============you are running on nt window===============')
+            print('=============== You are running on NT WINDOWS ===============')
         elif self.platformName == 'posix':
-            print('===============you are running on posix===============')
+            print('================= You are running on posix =================')
         else:
-            raise Exception(f'we are not implement in {self.platformName} platform')
+            raise Exception(f'We are not implement in {self.platformName} platform')
     
     #hàm chọn ổ đĩa để tiến hành xử lý
     def selectDiskPath(self):
-        diskPath = input('type your disk path: ')
+        diskPath = input('Type your disk path: ')
 
         if self.platformName == 'nt':
             self.diskPath = f'\\\\.\\{diskPath}:'

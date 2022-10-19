@@ -97,15 +97,16 @@ class Console:
         self.currentRoot.print()
 
     def help(self):
-        print(  '--help:    in ra các lệnh hướng dẫn\n' +
-                '--cd:      đi vào hoặc ra thư mục\n' +
-                '--ls:      lấy các tập tin đang có trong thư mục\n' + 
-                '--cls:     xóa màn hình\n' +
-                '--root:    lấy cây thư mục\n' +
-                '--cat:     đi vào file\n' + 
-                '--detail:  lấy chi tiết một tập tin\n' +
-                '--exit:    thoát khỏi file hoặc chương trình'
-            )
+        print('\n\n=================== Shell Environment ====================\n' + 
+                  '|--help:    in ra các lệnh hướng dẫn                     |\n' +
+                  '|--cd:      đi vào hoặc ra thư mục                       |\n' +
+                  '|--ls:      lấy các tập tin đang có trong thư mục        |\n' + 
+                  '|--cls:     xóa màn hình                                 |\n' +
+                  '|--root:    lấy cây thư mục                              |\n' +
+                  '|--cat:     đi vào file                                  |\n' + 
+                  '|--detail:  lấy chi tiết một tập tin                     |\n' +
+                  '|--exit:    thoát khỏi file hoặc chương trình            |\n' + 
+                  '|________________________________________________________|'   )
 
     def trigger(self, command):
         if command not in self.currentTrigger:
@@ -120,7 +121,7 @@ class Console:
 
     def windowShell(self):
         running = True
-        self.cls()
+        #self.cls()
         self.help()
         print('\n')
         while running:
@@ -151,6 +152,8 @@ class Console:
                 self.detail()
             elif command == 'cls':
                 self.cls()
+                self.help()
+                print('\n')
             elif command == 'ls':
                 self.ls()
             elif command == 'help':

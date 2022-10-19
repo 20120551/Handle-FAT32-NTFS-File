@@ -1,4 +1,5 @@
 from utils.disk import Disk
+import time
 
 def main():
     try:
@@ -11,21 +12,21 @@ def main():
 
         #generate directory
         directory = disk.generateDirectory()
-        #create new tnfs file system
+        #create new ntfs file system
 
-        volumeType = input('1:       NTFS\nOther:   FAT32\nchoose your volume type: ')
+        volumeType = input('\t1:     NTFS\n\t2:     FAT32\nChoose your volume type: ')
 
         if volumeType == '1':
             ######=========================DEMO NTFS========================###
             ntfsFile = disk.generateNTFSFile(file, directory)
 
             #demo handle PARTITION BOOT SECTOR
-            print('\n\n--------------PARTITION BOOT SECTOR--------------')
+            print('\n\n----------------------PARTITION BOOT SECTOR----------------------')
             ntfsFile.readPartitionRootSector()
 
             print('\n\nPress enter to switch to READ MASTER FILE TABLE function demo')
             input()
-
+            time.sleep(0.5)
             #demo handle READ MASTER FILE TABLE
             #build DIRECTORY TREE by console
             ntfsFile.build()
@@ -38,7 +39,7 @@ def main():
 
             print('\n\nPress enter to switch to RDET function demo')
             input()
-
+            #time.sleep(0.5)
             #demo handle RDET
             #build DIRECTORY TREE by console
             fat32File.build()

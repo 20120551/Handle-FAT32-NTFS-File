@@ -30,11 +30,13 @@ class NtfsFile:
         self.mirrorMFTCluster = getValueOfBufferByOffset(buffer, PDS_MIRROR_MFT_CLUSTER['hex'], PDS_MIRROR_MFT_CLUSTER['byte'])
 
         #in thông tin
-        print(f'Sector size: {self.sectorSize}(bytes)')
-        print(f'Sector/cluster: {self.sc}(s)')
-        print(f'Total Sector: {self.totalSector}(s)')
-        print(f'Started MFT Cluster: {self.startedMFTCluster * self.sc}(s)')
-        print(f'Mirror MFT Cluster: {self.mirrorMFTCluster * self.sc}(s)')
+        print( '_________________________________________________________________')
+        print(f'      Sector size: {self.sectorSize}(bytes)                       ')
+        print(f'      Sector/cluster: {self.sc}(s)                                ')
+        print(f'      Total Sector: {self.totalSector}(s)                         ')
+        print(f'      Started MFT Cluster: {self.startedMFTCluster * self.sc}(s)  ')
+        print(f'      Mirror MFT Cluster: {self.mirrorMFTCluster * self.sc}(s)    ')
+        print( '_________________________________________________________________')
 
     def readMasterFileTable(self):
         sector = 0
@@ -206,7 +208,7 @@ class NtfsFile:
 
     #hàm này dùng để tạo cây thư mục
     def generateTree(self):
-        self.readPartitionRootSector()
+        #self.readPartitionRootSector()
         self.readMasterFileTable()
     #hàm này để build project với console
     def build(self):
